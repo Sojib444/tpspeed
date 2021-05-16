@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Typing Test With Sojib</title>
+</head>
+<body>
+    <div class="main-div">
+        <div class="ceter-div">
+            <img src="./ShowProfilImage.png" alt="">
+            <h1 class="h1">Welcome To Typing Speed Test </h1><br/>
+            <h2  id="massage"></h2>
+            <textarea name="text" id="text-area" cols="100" rows="10" 
+            placeholder="Please write the same text what you see."></textarea><br>
+            <button id="btn">Start</button>
+            
+
+        </div>
+
+    </div>
+    
+    <script>
+
+        const setOfWords=["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, doloremque",
+        "? Temporibus et nam repellat animi eligendi harum aliquid beatae, facere quisquam doloribus blanditiis", 
+        "recusandae aliquam commodi quis vero corrupti minima consequatur sint hic quas dolorum rerum ratione laborum! Explicabo", 
+        "voluptate similique. Ab magnam sapiente rem cupiditate unde consectetur",
+        "! Natus perferendis vel commodi nulla reprehenderit, nam ex fugiat magnam ullam omnis libero exercitationem"
+        , "magni at veniam pariatur, minima illum soluta facere. Ullam optio facilis aperiam amet ab dicta deleniti assumenda omnis",
+         "tempore fuga, nobis quaerat a neque doloribus possimus officiis, eaque quisquam"];
+    
+        const msg=document.getElementById("massage");
+        const textarea=document.getElementById("text-area");
+        let btn=document.getElementById("btn");
+        let startTime,endTime;
+
+       const PlayGame=()=>
+      {
+          let randomnumber=Math.floor(Math.random()*setOfWords.length);
+          msg.innerText=setOfWords[randomnumber];
+          let date=new Date();
+          startTime=date.getTime();
+         btn.innerHTML="Done"
+      }
+
+      const endPlay=()=>
+      {
+          let date=new Date();
+          endTime=date.getTime();
+          const totalTime=((endTime-startTime)/1000);
+          console.log(totalTime);
+
+          let totalString=textarea.value;
+          let wordCount=wordCounter(totalString)
+          let speed= Math.round((wordCount/totalTime)*60);
+          let Fmsg="Your Typing Speeed Is " +speed+ " Words Per Munites";
+       
+           Fmsg +=  compareWords(msg.innerText,totalString);
+
+          msg.innerText=Fmsg ;
+          
+
+      }
+
+     
+     const compareWords=(str1,str2)=>{
+         let words1=str1.split(" ");
+         let words2=str2.split(" ");
+         let count=0;
+         words1.forEach(function(ele,index)
+         {
+             if(ele== words2[index])
+             {
+                 count++;
+             }
+         })
+         let errorWords=(words1.length-count);
+ 
+         return ("   Correct Word   " +count + "  Out of   "+ words1.length +"   Words and The Total Number of Error are   " + errorWords +".")
+
+     }
+     const wordCounter=(str)=>
+      {
+        let response=str.split(" ").length;
+        return response;
+      }
+     
+      
+
+        btn.addEventListener('click', function(){
+          
+            if(this.innerText=='Start')
+            {
+                textarea.disabled=false;
+                PlayGame();
+            }
+            else if (this.innerText=='Done')
+            {
+                textarea.disabled=true;
+                btn.innerText='Start';
+                endPlay();
+
+            }
+        })
+
+
+
+      
+
+
+    </script>
+    
+</body>
+</html>
